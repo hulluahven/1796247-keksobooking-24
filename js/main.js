@@ -72,7 +72,7 @@ const PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
 ];
 
-const ANNOUNCEMENT_COUNT = 2;
+const ANNOUNCEMENT_COUNT = 10;
 
 const getRandomIntegerFrom = (min, max) => {
   const random = min + Math.random() * (max + 1 - min);
