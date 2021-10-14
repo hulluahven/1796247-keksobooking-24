@@ -1,16 +1,3 @@
-const AVATAR_NUMBERS = [
-  '01',
-  '02',
-  '03',
-  '04',
-  '05',
-  '06',
-  '07',
-  '08',
-  '09',
-  '10',
-];
-
 const TITLES = [
   'Просторные апартаменты с видом на море',
   'Уютный дом на берегу озера',
@@ -63,7 +50,7 @@ const DESCRIPTIONS = [
   'Пару минут вниз по ступенькам и Вы на золотом пляже',
   'Безопасный район с велодорожками и мини - стадионом, охрана на въезде во двор, отапливаемая парковка',
   'Райское место для отдыха вдвоём',
-  'Старинный деревянный коттедж с уютной спальней, финской сауной и грилем во дворе.  Дополнительно есть возможность арендовать лодку с мотором.',
+  'Старинный деревянный коттедж с уютной спальней, финской сауной и грилем во дворе. Дополнительно есть возможность арендовать лодку с мотором.',
 ];
 
 const PHOTOS = [
@@ -72,6 +59,13 @@ const PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
 ];
 
+const LAT_MIN = 35.65000;
+const LAT_MAX = 35.70000;
+const LNG_MIN = 139.70000;
+const LNG_MAX = 139.80000;
+const PRICE_RANGE = 100000;
+const ROOMS_RANGE = 20;
+const GUESTS_RAGE = 50;
 const ANNOUNCEMENT_COUNT = 10;
 
 const getRandomIntegerFrom = (min, max) => {
@@ -83,6 +77,7 @@ const getRandomIntegerFrom = (min, max) => {
   return Math.floor(random);
 
 };
+
 
 // случайное целое число из переданного диапазона включительно
 
@@ -106,49 +101,23 @@ const getRandomIntegerPositive = (value) => {
   return Math.floor(random);
 };
 
-// функции для сбора массива произвольной длины. Преимущества и фото.
+// функция для сбора массива произвольной длины.
 
-const getFeaturesArray = () => {
-  const featuresArray = [];
-  const maxLength = FEATURES.length;
+const getNewArray = (value) => {
+  const newArray = [];
+  const maxLength = value.length;
   const lengthOfArray = getRandomIntegerFrom(1, maxLength);
-
-
   for(let id = 0; id < lengthOfArray; id++) {
-    const featuresIndex = getRandomIntegerFrom(0, 5);
-    const arrayElement = FEATURES[featuresIndex];
-
-    if (!featuresArray.includes(arrayElement)) {
-      featuresArray.push(arrayElement);
+    const newIndex = getRandomIntegerFrom(0, maxLength - 1);
+    const arrayElement = value[newIndex];
+    if (!newArray.includes(arrayElement)) {
+      newArray.push(arrayElement);
     }
   }
-  return featuresArray.join(', ');
-
+  return newArray;
 };
 
-
-const getPhotosArray = () => {
-  const photosArray = [];
-  const maxLength = PHOTOS.length;
-  const lengthOfArray = getRandomIntegerFrom(1, maxLength);
-
-
-  for(let id = 0; id < lengthOfArray; id++) {
-    const photosIndex = getRandomIntegerFrom(0, maxLength - 1);
-    const arrayElement = PHOTOS[photosIndex];
-
-    if (!photosArray.includes(arrayElement)) {
-      photosArray.push(arrayElement);
-    }
-  }
-  return photosArray.join(', ');
-};
-
-const createAnnouncement = () => {
-  // переменные для автора
-  const randomIndex = getRandomIntegerFrom (0, AVATAR_NUMBERS.length -1);
-  const randomIntegerArray = AVATAR_NUMBERS[randomIndex];
-  const result = AVATAR_NUMBERS.splice(randomIntegerArray, 1);
+const createAnnouncement = (value, index) => {
   // переменные для оффера...
   const randomIndexTitle = getRandomIntegerFrom (0, TITLES.length -1);
   const randomIndexType = getRandomIntegerFrom (0, TYPES.length - 1);
@@ -156,26 +125,26 @@ const createAnnouncement = () => {
   const randomIndexCheckout = getRandomIntegerFrom (0, CHECKOUT_HOURS.length - 1);
   const randomIndexDescription = getRandomIntegerFrom (0, DESCRIPTIONS.length - 1);
   // ...и локации
-  const lat = getRandomFloat(35.65000, 35.70000, 5);
-  const lng = getRandomFloat(139.70000, 139.80000, 5);
+  const lat = getRandomFloat(LAT_MIN, LAT_MAX, 5);
+  const lng = getRandomFloat(LNG_MIN, LNG_MAX, 5);
 
   return {
-    autor: {
-      avatar: `img/avatars/user${result}.png`,
+    author: {
+      avatar: `img/avatars/user${String(++index).padStart(2, '0')}.png`,
     },
 
     offer: {
       title: TITLES[randomIndexTitle],
       address: `${lat}, ${lng}`,
-      price: getRandomIntegerPositive(100000),
+      price: getRandomIntegerPositive(PRICE_RANGE),
       type: TYPES[randomIndexType],
-      rooms: getRandomIntegerPositive(20),
-      guests: getRandomIntegerPositive(50),
+      rooms: getRandomIntegerPositive(ROOMS_RANGE),
+      guests: getRandomIntegerPositive(GUESTS_RAGE),
       checkin: CHECKIN_HOURS[randomIndexCheckin],
       checkout: CHECKOUT_HOURS[randomIndexCheckout],
-      features: getFeaturesArray (FEATURES),
+      features: getNewArray (FEATURES),
       description: DESCRIPTIONS[randomIndexDescription],
-      photos: getPhotosArray(PHOTOS),
+      photos: getNewArray(PHOTOS),
     },
 
     location: {
