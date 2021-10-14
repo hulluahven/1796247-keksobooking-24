@@ -83,6 +83,7 @@ const getRandomIntegerFrom = (min, max) => {
 
 
 const getRandomFloat = (min, max, amountOfNumbers) => {
+
   const random = min + Math.random() * (max + 1 - min);
   if (min < 0 || min >= max) {
     return false;
