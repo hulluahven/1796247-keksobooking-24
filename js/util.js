@@ -1,3 +1,5 @@
+// случайное целое число из переданного диапазона включительно
+
 const getRandomIntegerFrom = (min, max) => {
   const random = min + Math.random() * (max + 1 - min);
   if (min < 0 || min >= max) {
@@ -7,7 +9,8 @@ const getRandomIntegerFrom = (min, max) => {
   return Math.floor(random);
 
 };
-// случайное целое число из переданного диапазона включительно
+
+// случайное число с плавающей точкой из переданного диапазона включительно
 
 const getRandomFloat = (min, max, amountOfNumbers) => {
 
@@ -20,14 +23,14 @@ const getRandomFloat = (min, max, amountOfNumbers) => {
 
 };
 
-// случайное число с плавающей точкой из переданного диапазона включительно
+// доп функция для получения целого + числа
 
 const getRandomIntegerPositive = (value) => {
   const random = Math.random() * value;
   return Math.floor(random);
 };
 
-// доп функция для получения целого + числа
+// функция для сбора массива произвольной длины.
 
 const getNewArray = (value) => {
   const newArray = [];
@@ -42,7 +45,5 @@ const getNewArray = (value) => {
   }
   return newArray;
 };
-
-// функция для сбора массива произвольной длины.
 
 export {getRandomIntegerFrom, getRandomFloat, getRandomIntegerPositive, getNewArray};
