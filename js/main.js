@@ -1,5 +1,2 @@
-import {createAnnouncement, ANNOUNCEMENT_COUNT} from './data.js';
-
-const announcementArray = Array.from({length:ANNOUNCEMENT_COUNT}, createAnnouncement);
-announcementArray;
-
+import './data.js';
+import './card-popup.js';
