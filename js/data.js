@@ -69,7 +69,7 @@ const PRICE_RANGE = 10000;
 const ROOMS_RANGE = 20;
 const GUESTS_RANGE = 50;
 
-const ANNOUNCEMENT_COUNT = 1;
+const ANNOUNCEMENT_COUNT = 10;
 
 const createAnnouncement = (value, index) => {
   // переменные для оффера...

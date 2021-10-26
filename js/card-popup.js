@@ -1,5 +1,7 @@
 import {createAnnouncementArray} from './data.js';
-//див в который будем помещать объявления
+import {getRandomIntegerFrom} from './util.js';
+
+//пункт в который будем помещать объявления
 const announcementContainer = document.querySelector('#map-canvas');
 // находим шаблон для копирования
 const announcementTemplate = document.querySelector('#card')
@@ -66,22 +68,25 @@ const announcementListFragment = document.createDocumentFragment();
 
 const announcementArray = createAnnouncementArray();
 
-announcementArray.forEach(({offer}) => {
+// создаем карточку объявления
+const getAnnouncementCard = ({offer, author}) => {
   const announcementElement = announcementTemplate.cloneNode(true);
+  // клонируем шаблон и заполняем его
   announcementElement.querySelector('.popup__title').textContent = offer.title;
   announcementElement.querySelector('.popup__text--address').textContent = offer.address;
   announcementElement.querySelector('.popup__text--price').textContent = `${offer.price} ₽/ночь`;
   announcementElement.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
   announcementElement.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
   announcementElement.querySelector('.popup__description').textContent = offer.description;
-  // announcementElement.querySelector('.popup__avatar').src.textContent = author.avatar;
+  announcementElement.querySelector('.popup__avatar').src = author.avatar;
   getNecessaryFeatures(announcementElement, offer);
   getNecessaryPhotos(announcementElement, offer);
   getNecessaryType( announcementElement, offer);
   checkAnnouncementDescription(announcementElement, offer);
   announcementListFragment.append(announcementElement);
   announcementContainer.appendChild(announcementListFragment);
-},
-);
+};
+// поиск случайного элемента массива для обработки
+const getRandomIndex = (array) => array[getRandomIntegerFrom(0, array.length - 1)];
 
-
+getAnnouncementCard(getRandomIndex(announcementArray));
