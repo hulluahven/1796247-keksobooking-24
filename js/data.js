@@ -47,7 +47,7 @@ const DESCRIPTIONS = [
   'Тихий внутренний двор, без машин, с детской площадкой и беседками',
   'Апартаменты в самом центре города, в шаговой доступности музеи и памятники архитектуры',
   'Панорамный вид на море, солнечная сторона',
-  'Спокойное место для работы или отдыха. Рядом лес с эко - тропами для бега или велосипедной езды  ',
+  'Спокойное место для работы или отдыха. Рядом лес с эко - тропами для пробежек или велосипедной езды  ',
   'Рядом кинотеатр, выставочный зал, сразу за углом уютная пекарня',
   'Пару минут вниз по ступенькам и Вы на золотом пляже',
   'Безопасный район с велодорожками и мини - стадионом, охрана на въезде во двор, отапливаемая парковка',
@@ -65,7 +65,7 @@ const LAT_MIN = 35.65000;
 const LAT_MAX = 35.70000;
 const LNG_MIN = 139.70000;
 const LNG_MAX = 139.80000;
-const PRICE_RANGE = 100000;
+const PRICE_RANGE = 10000;
 const ROOMS_RANGE = 20;
 const GUESTS_RANGE = 50;
 
@@ -108,4 +108,6 @@ const createAnnouncement = (value, index) => {
   };
 } ;
 
-export {createAnnouncement, ANNOUNCEMENT_COUNT};
+const createAnnouncementArray = () => Array.from({length:ANNOUNCEMENT_COUNT}, createAnnouncement);
+export{createAnnouncementArray};
+
