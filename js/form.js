@@ -9,6 +9,8 @@ const announcementPriceInput = document.querySelector('#price');
 const numberOfRooms = document.querySelector('#room_number');
 const roomsСapacity = document.querySelector('#capacity');
 const announcementForm = document.querySelector('.ad-form');
+const formFieldsets = announcementForm.querySelectorAll('fieldset');
+const mapFilters = document.querySelector('.map__filters');
 
 //1- проверка валидности заголовка
 
@@ -81,3 +83,26 @@ announcementForm.addEventListener('submit', (evt) => {
   }
 });
 
+
+// неактивное состояние для формы
+
+const getFormInactive = () => {
+  announcementForm.classList.add('ad-form--disabled');
+  formFieldsets.forEach((formFieldset) => {
+    formFieldset.setAttribute('disabled','disabled');
+  });
+  mapFilters.classList.add('map__filters--disabled');
+  mapFilters.setAttribute('disabled','disabled');
+};
+getFormInactive();
+
+// активное состояние для формы
+const getFormActive = () => {
+  announcementForm.classList.remove('ad-form--disabled');
+  formFieldsets.forEach((formFieldset) => {
+    formFieldset.removeAttribute('disabled');
+  });
+  mapFilters.classList.remove('map__filters--disabled');
+  mapFilters.removeAttribute('disabled');
+};
+getFormActive();
