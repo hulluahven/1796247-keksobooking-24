@@ -83,9 +83,7 @@ announcementForm.addEventListener('submit', (evt) => {
   }
 });
 
-
 // неактивное состояние для формы
-
 const getFormInactive = () => {
   announcementForm.classList.add('ad-form--disabled');
   formFieldsets.forEach((formFieldset) => {
@@ -106,3 +104,5 @@ const getFormActive = () => {
   mapFilters.removeAttribute('disabled');
 };
 getFormActive();
+
+export{getFormInactive, getFormActive};

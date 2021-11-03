@@ -46,4 +46,4 @@ const getNewArray = (value) => {
   return newArray;
 };
 
-export {getRandomIntegerFrom, getRandomFloat, getRandomIntegerPositive, getNewArray};
+export { getRandomIntegerFrom, getRandomFloat, getRandomIntegerPositive, getNewArray};

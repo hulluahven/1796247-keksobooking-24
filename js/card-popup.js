@@ -1,8 +1,5 @@
 import {createAnnouncementArray} from './data.js';
-import {getRandomIntegerFrom} from './util.js';
 
-//пункт в который будем помещать объявления
-const announcementContainer = document.querySelector('#map-canvas');
 // находим шаблон для копирования
 const announcementTemplate = document.querySelector('#card')
   .content
@@ -84,9 +81,8 @@ const getAnnouncementCard = ({offer, author}) => {
   getNecessaryType( announcementElement, offer);
   checkAnnouncementDescription(announcementElement, offer);
   announcementListFragment.append(announcementElement);
-  announcementContainer.appendChild(announcementListFragment);
+  // удаляем отрисовку карточки на месте карты и возвращаем заполненный склонированный шаблон
+  return announcementElement;
 };
-// поиск случайного элемента массива для обработки
-const getRandomIndex = (array) => array[getRandomIntegerFrom(0, array.length - 1)];
 
-getAnnouncementCard(getRandomIndex(announcementArray));
+export{getAnnouncementCard, announcementArray};
