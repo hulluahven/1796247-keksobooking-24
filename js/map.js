@@ -51,7 +51,7 @@ const customMarker = L.marker({
 customMarker.addTo(map);
 
 // событие на конец перемещения маркера
-customMarker.on('moveend', (evt) => {
+customMarker.on('move', (evt) => {
   const announcementAddress = evt.target.getLatLng();
   addressField.setAttribute('value', `${announcementAddress.lat.toFixed(5)}, ${announcementAddress.lng.toFixed(5)}`);
 });
