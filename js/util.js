@@ -1,49 +1,57 @@
-// случайное целое число из переданного диапазона включительно
+//шаблон для удачной отправки
+const successTemplate = document.querySelector('#success')
+  .content
+  .querySelector('.success');
 
-const getRandomIntegerFrom = (min, max) => {
-  const random = min + Math.random() * (max + 1 - min);
-  if (min < 0 || min >= max) {
-    return false;
-  }
+//шаблон для неудачной отправки
+const errorTemplate = document.querySelector('#error')
+  .content
+  .querySelector('.error');
+const ALERT_SHOW_TIME = 5000;
 
-  return Math.floor(random);
+// показать сообщение
 
+const showAlert = (message) => {
+  const alertContainer = document.createElement('div');
+  alertContainer.style.zIndex = 100;
+  alertContainer.style.position = 'absolute';
+  alertContainer.style.left = 0;
+  alertContainer.style.top = 0;
+  alertContainer.style.right = 0;
+  alertContainer.style.padding = '10px 3px';
+  alertContainer.style.fontSize = '30px';
+  alertContainer.style.textAlign = 'center';
+  alertContainer.style.backgroundColor = 'tomato';
+  alertContainer.textContent = message;
+  document.body.append(alertContainer);
+
+  setTimeout(() => {
+    alertContainer.remove();
+  }, ALERT_SHOW_TIME);
 };
 
-// случайное число с плавающей точкой из переданного диапазона включительно
-
-const getRandomFloat = (min, max, amountOfNumbers) => {
-
-  const random = min + Math.random() * (max + 1 - min);
-  if (min < 0 || min >= max) {
-    return false;
-  }
-
-  return random.toFixed(amountOfNumbers);
-
+const showSuccessMessage = () => {
+  const successMessage = successTemplate.cloneNode(true);
+  document.body.append(successMessage);
+  return successMessage;
 };
 
-// доп функция для получения целого + числа
-
-const getRandomIntegerPositive = (value) => {
-  const random = Math.random() * value;
-  return Math.floor(random);
+const showErrorMessage = () => {
+  const errorMessage = errorTemplate.cloneNode(true);
+  document.body.append(errorMessage);
+  return errorMessage;
 };
 
-// функция для сбора массива произвольной длины.
-
-const getNewArray = (value) => {
-  const newArray = [];
-  const maxLength = value.length;
-  const lengthOfArray = getRandomIntegerFrom(1, maxLength);
-  for(let id = 0; id < lengthOfArray; id++) {
-    const newIndex = getRandomIntegerFrom(0, maxLength - 1);
-    const arrayElement = value[newIndex];
-    if (!newArray.includes(arrayElement)) {
-      newArray.push(arrayElement);
+const closeMessage = (popup) => {
+  document.addEventListener('keydown', (evt) => {
+    evt.preventDefault();
+    if (evt.key === 'Escape') {
+      popup.classList.add('hidden');
     }
-  }
-  return newArray;
+  });
+  window.addEventListener('click', () => {
+    popup.classList.add('hidden');
+  });
 };
 
-export { getRandomIntegerFrom, getRandomFloat, getRandomIntegerPositive, getNewArray};
+export {showAlert , showSuccessMessage, showErrorMessage, closeMessage};

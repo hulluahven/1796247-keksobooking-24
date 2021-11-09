@@ -1,15 +1,17 @@
-import {createAnnouncementArray} from './data.js';
-
 // находим шаблон для копирования
 const announcementTemplate = document.querySelector('#card')
   .content
   .querySelector('.popup');
 
-// оставить те удобства, которые пришли из рандома
+// оставить пришедшие с сервера удобства
 const getNecessaryFeatures = (announcementElement, offer) => {
   const featuresContainer = announcementElement.querySelector('.popup__features');
   const featuresListFragment = document.createDocumentFragment();
   const offerFeatures = offer.features;
+  if (offerFeatures === undefined) {
+    announcementElement.querySelector('.popup__photos').style.display = 'none';
+    return;
+  }
   offerFeatures.forEach((offerFeature) => {
     const featuresListItem = featuresContainer.querySelector(`.popup__feature--${offerFeature}`);
     if (featuresListItem) {
@@ -20,9 +22,14 @@ const getNecessaryFeatures = (announcementElement, offer) => {
   featuresContainer.appendChild(featuresListFragment);
 };
 
-// получить все пришедшие из рандома фотографии жилья
+// получить все пришедшие фотографии жилья
 const getNecessaryPhotos = (announcementElement, offer) => {
   const offerPhotos = offer.photos;
+  if (offerPhotos === undefined) {
+    announcementElement.querySelector('.popup__photos').style.display = 'none';
+    return;
+  }
+
   announcementElement.querySelector('.popup__photos').innerHTML = '';
   offerPhotos.forEach((offerPhoto) => {
     const photoItem = document.createElement('img');
@@ -60,12 +67,9 @@ const checkAnnouncementDescription = (announcementElement, offer) => {
   announcementElement.querySelector('.popup__description').textContent = offer.description;
 };
 
-
 const announcementListFragment = document.createDocumentFragment();
 
-const announcementArray = createAnnouncementArray();
-
-// создаем карточку объявления
+// создаём карточку объявления
 const getAnnouncementCard = ({offer, author}) => {
   const announcementElement = announcementTemplate.cloneNode(true);
   // клонируем шаблон и заполняем его
@@ -85,4 +89,5 @@ const getAnnouncementCard = ({offer, author}) => {
   return announcementElement;
 };
 
-export{getAnnouncementCard, announcementArray};
+export{getAnnouncementCard};
+
