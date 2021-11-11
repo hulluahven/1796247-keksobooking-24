@@ -49,15 +49,15 @@ const showErrorMessage = () => {
 const closeMessage = (popup) => {
   const addClass = () => {
     popup.classList.add('hidden');
-    // document.removeEventListener('keydown', onPopupEscapeKeydown);
+    document.removeEventListener('keydown', onPopupEscapeKeydown);
   };
 
-  const onPopupEscapeKeydown = (evt) => {
+  function onPopupEscapeKeydown(evt)  {
     if (isEscapeKey(evt)) {
       evt.preventDefault();
       addClass(popup);
     }
-  };
+  }
 
   document.addEventListener('keydown', onPopupEscapeKeydown);
   window.addEventListener('click', () => {

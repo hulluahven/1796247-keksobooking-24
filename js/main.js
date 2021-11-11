@@ -1,3 +1,7 @@
-import './api.js';
 import './cards.js';
-import  './form.js';
+// import {getData, sendData} from './api.js';
+import {setUserFormSubmit} from './form.js';
+// import {returnMapInitial} from './map.js';
+
+setUserFormSubmit();
+

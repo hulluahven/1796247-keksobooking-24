@@ -1,6 +1,5 @@
 import {sendData} from './api.js';
 import {showSuccessMessage, showErrorMessage, closeMessage} from './util.js';
-import {returnMapInitial} from './map.js';
 
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
@@ -106,29 +105,26 @@ roomsСapacity.addEventListener('change',onAmountFieldChange);
 
 const setUserFormSubmit = () => {
   announcementForm.addEventListener('submit', (evt) => {
-    evt.PreventDefault();
+    evt.preventDefault();
     if(!roomsСapacity.checkValidity()) {
       roomsСapacity.style = 'outline: 2px solid red';
     }
     sendData(
-      // в случае успеха
       () => {
         showSuccessMessage();
         evt.target.reset();
-        returnMapInitial();
+        // returnMapInitial();
+        // ругается линтер, а если передать будет зацикливание
         closeMessage(document.querySelector('.success'));
       },
-      // иначе
       () => {
         showErrorMessage();
         closeMessage(document.querySelector('.error'));
       },
-      // body
       new FormData(evt.target),
     );
   });
 };
-
-setUserFormSubmit();
+sendData();
 
 export{getFormInactive, getFormActive, announcementForm, setUserFormSubmit};
