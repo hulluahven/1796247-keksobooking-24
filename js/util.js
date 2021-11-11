@@ -1,3 +1,5 @@
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
 //шаблон для удачной отправки
 const successTemplate = document.querySelector('#success')
   .content
@@ -7,6 +9,7 @@ const successTemplate = document.querySelector('#success')
 const errorTemplate = document.querySelector('#error')
   .content
   .querySelector('.error');
+
 const ALERT_SHOW_TIME = 5000;
 
 // показать сообщение
@@ -42,16 +45,25 @@ const showErrorMessage = () => {
   return errorMessage;
 };
 
+
 const closeMessage = (popup) => {
-  document.addEventListener('keydown', (evt) => {
-    evt.preventDefault();
-    if (evt.key === 'Escape') {
-      popup.classList.add('hidden');
+  const addClass = () => {
+    popup.classList.add('hidden');
+    // document.removeEventListener('keydown', onPopupEscapeKeydown);
+  };
+
+  const onPopupEscapeKeydown = (evt) => {
+    if (isEscapeKey(evt)) {
+      evt.preventDefault();
+      addClass(popup);
     }
-  });
+  };
+
+  document.addEventListener('keydown', onPopupEscapeKeydown);
   window.addEventListener('click', () => {
     popup.classList.add('hidden');
   });
 };
+
 
 export {showAlert , showSuccessMessage, showErrorMessage, closeMessage};

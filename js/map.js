@@ -1,7 +1,9 @@
 import{getFormInactive, getFormActive, announcementForm} from './form.js';
 import{getAnnouncementCard} from './cards.js';
+import {getData} from './api.js';
 
 const addressField = document.querySelector('#address');
+const OFFERS_COUNT = 10;
 const TOKYO_CENTER_LAT = 35.67892;
 const TOKYO_CENTER_LNG = 139.76844;
 const CUSTOM_ICON_DATA = {
@@ -76,6 +78,11 @@ const createMarker = (announcements) => {
       .bindPopup(getAnnouncementCard(announcement));
   });
 };
+
+// получить данные
+getData((announcements) => {
+  createMarker(announcements.slice(0, OFFERS_COUNT));
+});
 
 // возвратить в исходное состояние
 

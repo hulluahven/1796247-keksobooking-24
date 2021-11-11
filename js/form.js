@@ -1,3 +1,6 @@
+import {sendData} from './api.js';
+import {showSuccessMessage, showErrorMessage, closeMessage} from './util.js';
+import {returnMapInitial} from './map.js';
 
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
@@ -12,6 +15,30 @@ const roomsСapacity = document.querySelector('#capacity');
 const announcementForm = document.querySelector('.ad-form');
 const formFieldsets = announcementForm.querySelectorAll('fieldset');
 const mapFilters = document.querySelector('.map__filters');
+
+//неактивное состояние для формы
+const getFormInactive = () => {
+  announcementForm.classList.add('ad-form--disabled');
+  formFieldsets.forEach((formFieldset) => {
+    formFieldset.setAttribute('disabled','disabled');
+  });
+  mapFilters.classList.add('map__filters--disabled');
+  mapFilters.setAttribute('disabled','disabled');
+};
+
+// зациклился в модулях
+getFormInactive();
+
+//активное состояние для формы
+const getFormActive = () => {
+  announcementForm.classList.remove('ad-form--disabled');
+  formFieldsets.forEach((formFieldset) => {
+    formFieldset.removeAttribute('disabled');
+  });
+  mapFilters.classList.remove('map__filters--disabled');
+  mapFilters.removeAttribute('disabled');
+};
+getFormActive();
 
 //проверка валидности заголовка
 
@@ -77,33 +104,31 @@ const onAmountFieldChange = () => {
 numberOfRooms.addEventListener('change',onAmountFieldChange);
 roomsСapacity.addEventListener('change',onAmountFieldChange);
 
-announcementForm.addEventListener('submit', (evt) => {
-  evt.PreventDefault();
-  if(!roomsСapacity.checkValidity()) {
-    roomsСapacity.style = 'outline: 2px solid red';
-  }
-});
-
-//неактивное состояние для формы
-const getFormInactive = () => {
-  announcementForm.classList.add('ad-form--disabled');
-  formFieldsets.forEach((formFieldset) => {
-    formFieldset.setAttribute('disabled','disabled');
+const setUserFormSubmit = () => {
+  announcementForm.addEventListener('submit', (evt) => {
+    evt.PreventDefault();
+    if(!roomsСapacity.checkValidity()) {
+      roomsСapacity.style = 'outline: 2px solid red';
+    }
+    sendData(
+      // в случае успеха
+      () => {
+        showSuccessMessage();
+        evt.target.reset();
+        returnMapInitial();
+        closeMessage(document.querySelector('.success'));
+      },
+      // иначе
+      () => {
+        showErrorMessage();
+        closeMessage(document.querySelector('.error'));
+      },
+      // body
+      new FormData(evt.target),
+    );
   });
-  mapFilters.classList.add('map__filters--disabled');
-  mapFilters.setAttribute('disabled','disabled');
 };
-getFormInactive();
 
-//активное состояние для формы
-const getFormActive = () => {
-  announcementForm.classList.remove('ad-form--disabled');
-  formFieldsets.forEach((formFieldset) => {
-    formFieldset.removeAttribute('disabled');
-  });
-  mapFilters.classList.remove('map__filters--disabled');
-  mapFilters.removeAttribute('disabled');
-};
-getFormActive();
+setUserFormSubmit();
 
-export{getFormInactive, getFormActive, announcementForm};
+export{getFormInactive, getFormActive, announcementForm, setUserFormSubmit};
