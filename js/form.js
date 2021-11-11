@@ -103,7 +103,7 @@ const onAmountFieldChange = () => {
 numberOfRooms.addEventListener('change',onAmountFieldChange);
 roomsСapacity.addEventListener('change',onAmountFieldChange);
 
-const setUserFormSubmit = () => {
+const setUserFormSubmit = (returnMapInitial) => {
   announcementForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
     if(!roomsСapacity.checkValidity()) {
@@ -124,17 +124,5 @@ const setUserFormSubmit = () => {
     );
   });
 };
-
-// вот здесь выше проблема как раз и показывает сразу два окна
-// Почему условие не работает если всё ок
-// Или мне получается
-
-// showSuccessMessage();
-// evt.target.reset();
-// returnMapInitial();
-// closeMessage(document.querySelector('.success'));
-
-// нужно как раз передать в api а на события отправки отдать колбек?
-
 
 export{getFormInactive, getFormActive, announcementForm, setUserFormSubmit};
