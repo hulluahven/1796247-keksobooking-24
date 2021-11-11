@@ -113,8 +113,7 @@ const setUserFormSubmit = () => {
       () => {
         showSuccessMessage();
         evt.target.reset();
-        // returnMapInitial();
-        // ругается линтер, а если передать будет зацикливание
+        returnMapInitial();
         closeMessage(document.querySelector('.success'));
       },
       () => {
@@ -125,6 +124,17 @@ const setUserFormSubmit = () => {
     );
   });
 };
-sendData();
+
+// вот здесь выше проблема как раз и показывает сразу два окна
+// Почему условие не работает если всё ок
+// Или мне получается
+
+// showSuccessMessage();
+// evt.target.reset();
+// returnMapInitial();
+// closeMessage(document.querySelector('.success'));
+
+// нужно как раз передать в api а на события отправки отдать колбек?
+
 
 export{getFormInactive, getFormActive, announcementForm, setUserFormSubmit};
