@@ -1,3 +1,6 @@
+import {sendData} from './api.js';
+import {showSuccessMessage, showErrorMessage, closeMessage} from './util.js';
+
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
 const MAX_PRICE = 1000000;
@@ -12,7 +15,28 @@ const announcementForm = document.querySelector('.ad-form');
 const formFieldsets = announcementForm.querySelectorAll('fieldset');
 const mapFilters = document.querySelector('.map__filters');
 
-//1- проверка валидности заголовка
+//неактивное состояние для формы
+const getFormInactive = () => {
+  announcementForm.classList.add('ad-form--disabled');
+  formFieldsets.forEach((formFieldset) => {
+    formFieldset.setAttribute('disabled','disabled');
+  });
+  mapFilters.classList.add('map__filters--disabled');
+  mapFilters.setAttribute('disabled','disabled');
+};
+
+
+//активное состояние для формы
+const getFormActive = () => {
+  announcementForm.classList.remove('ad-form--disabled');
+  formFieldsets.forEach((formFieldset) => {
+    formFieldset.removeAttribute('disabled');
+  });
+  mapFilters.classList.remove('map__filters--disabled');
+  mapFilters.removeAttribute('disabled');
+};
+
+//проверка валидности заголовка
 
 announcementTitleInput.addEventListener('input', () => {
   const titleLength = announcementTitleInput.value.length;
@@ -32,7 +56,7 @@ announcementTitleInput.addEventListener('input', () => {
   announcementTitleInput.reportValidity();
 });
 
-//2- проверка валидности цены
+//проверка валидности цены
 announcementPriceInput.addEventListener('input', () => {
   const priceInput = announcementPriceInput.value;
 
@@ -47,7 +71,7 @@ announcementPriceInput.addEventListener('input', () => {
   announcementPriceInput.reportValidity();
 });
 
-// 3 синхронизация и проверка соотношения кол-ва гостей и комнат
+//синхронизация и проверка соотношения кол-ва гостей и комнат
 const onAmountFieldChange = () => {
   const roomsAmount = Number(numberOfRooms.value);
   const capacityAmount = Number(roomsСapacity.value);
@@ -76,33 +100,26 @@ const onAmountFieldChange = () => {
 numberOfRooms.addEventListener('change',onAmountFieldChange);
 roomsСapacity.addEventListener('change',onAmountFieldChange);
 
-announcementForm.addEventListener('submit', (evt) => {
-  evt.PreventDefault();
-  if(!roomsСapacity.checkValidity()) {
-    roomsСapacity.style = 'outline: 2px solid red';
-  }
-});
-
-// неактивное состояние для формы
-const getFormInactive = () => {
-  announcementForm.classList.add('ad-form--disabled');
-  formFieldsets.forEach((formFieldset) => {
-    formFieldset.setAttribute('disabled','disabled');
+const setUserFormSubmit = (returnMapInitial) => {
+  announcementForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    if(!roomsСapacity.checkValidity()) {
+      roomsСapacity.style = 'outline: 2px solid red';
+    }
+    sendData(
+      () => {
+        showSuccessMessage();
+        evt.target.reset();
+        returnMapInitial();
+        closeMessage(document.querySelector('.success'));
+      },
+      () => {
+        showErrorMessage();
+        closeMessage(document.querySelector('.error'));
+      },
+      new FormData(evt.target),
+    );
   });
-  mapFilters.classList.add('map__filters--disabled');
-  mapFilters.setAttribute('disabled','disabled');
 };
-getFormInactive();
-
-// активное состояние для формы
-const getFormActive = () => {
-  announcementForm.classList.remove('ad-form--disabled');
-  formFieldsets.forEach((formFieldset) => {
-    formFieldset.removeAttribute('disabled');
-  });
-  mapFilters.classList.remove('map__filters--disabled');
-  mapFilters.removeAttribute('disabled');
-};
-getFormActive();
-
-export{getFormInactive, getFormActive};
+// Доделать правильным способом
+export{getFormInactive, getFormActive, announcementForm, setUserFormSubmit};

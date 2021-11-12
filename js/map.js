@@ -1,6 +1,9 @@
-import{getFormInactive, getFormActive} from './form.js';
-import{getAnnouncementCard, announcementArray} from './card-popup.js';
+import{getFormInactive, getFormActive, announcementForm} from './form.js';
+import{getAnnouncementCard} from './cards.js';
+import {getData} from './api.js';
+
 const addressField = document.querySelector('#address');
+const OFFERS_COUNT = 10;
 const TOKYO_CENTER_LAT = 35.67892;
 const TOKYO_CENTER_LNG = 139.76844;
 const CUSTOM_ICON_DATA = {
@@ -19,7 +22,7 @@ getFormInactive();
 const map = L.map('map-canvas')
 // добавляем активацию формы при загрузке
   .on('load',() => {
-    getFormActive();
+    // getFormActive();
     addressField.setAttribute('value', `${TOKYO_CENTER_LAT}, ${TOKYO_CENTER_LNG}`);
   })
   .setView({
@@ -50,17 +53,16 @@ const customMarker = L.marker({
 
 customMarker.addTo(map);
 
-// событие на конец перемещения маркера
+// событие на перемещение маркера
 customMarker.on('move', (evt) => {
   const announcementAddress = evt.target.getLatLng();
   addressField.setAttribute('value', `${announcementAddress.lat.toFixed(5)}, ${announcementAddress.lng.toFixed(5)}`);
 });
 
 // функция для создания маркеров
-
-const createMarker = () => {
-  announcementArray.forEach((index) => {
-    const {lat, lng} = index.location;
+const createMarker = (announcements) => {
+  announcements.forEach((announcement) => {
+    const {lat, lng} = announcement.location;
     const icon = L.icon(ANNOUNCEMENT_ICON_DATA);
     const announcementMarker = L.marker(
       {
@@ -73,11 +75,43 @@ const createMarker = () => {
     );
     announcementMarker
       .addTo(map)
-      .bindPopup(getAnnouncementCard(index));
+      .bindPopup(getAnnouncementCard(announcement));
   });
 };
 
-announcementArray.forEach((index) => {
-  createMarker(index);
+// получить данные
+getData((announcements) => {
+  createMarker(announcements.slice(0, OFFERS_COUNT));
+  getFormActive();
 });
+
+// getFormActive();
+
+// возвратить в исходное состояние
+
+const returnMapInitial = () => {
+  map.setView({
+    lat: TOKYO_CENTER_LAT,
+    lng: TOKYO_CENTER_LNG,
+  }, 10);
+
+  customMarker.setLatLng({
+    lat: TOKYO_CENTER_LAT,
+    lng: TOKYO_CENTER_LNG,
+  });
+
+  map.closePopup();
+  addressField.setAttribute('value', `${TOKYO_CENTER_LAT}, ${TOKYO_CENTER_LNG}`);
+};
+
+// при клике на кнопку очистить карту вернуть в исходное
+
+const toReset = () => {
+  const resetButton = announcementForm.querySelector('.ad-form__reset');
+  resetButton.addEventListener('click', returnMapInitial);
+};
+
+toReset();
+
+export {createMarker ,returnMapInitial, toReset};
 
