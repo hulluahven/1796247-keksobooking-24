@@ -25,8 +25,6 @@ const getFormInactive = () => {
   mapFilters.setAttribute('disabled','disabled');
 };
 
-// зациклился в модулях
-getFormInactive();
 
 //активное состояние для формы
 const getFormActive = () => {
@@ -37,7 +35,6 @@ const getFormActive = () => {
   mapFilters.classList.remove('map__filters--disabled');
   mapFilters.removeAttribute('disabled');
 };
-getFormActive();
 
 //проверка валидности заголовка
 
@@ -124,5 +121,5 @@ const setUserFormSubmit = (returnMapInitial) => {
     );
   });
 };
-
+// Доделать правильным способом
 export{getFormInactive, getFormActive, announcementForm, setUserFormSubmit};

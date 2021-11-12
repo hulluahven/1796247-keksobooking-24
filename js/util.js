@@ -47,22 +47,25 @@ const showErrorMessage = () => {
 
 
 const closeMessage = (popup) => {
-  const addClass = () => {
-    popup.classList.add('hidden');
+  const removeElement = (popup) => {
+    popup.remove();
     document.removeEventListener('keydown', onPopupEscapeKeydown);
-  };
+    window.removeEventListener('click',onClickPopup );
+  }
 
   function onPopupEscapeKeydown(evt)  {
     if (isEscapeKey(evt)) {
       evt.preventDefault();
-      addClass(popup);
+      removeElement(popup);
     }
   }
 
+  const onClickPopup = () => {
+    removeElement(popup);
+      };
+
   document.addEventListener('keydown', onPopupEscapeKeydown);
-  window.addEventListener('click', () => {
-    popup.classList.add('hidden');
-  });
+  window.addEventListener('click',onClickPopup );
 };
 
 

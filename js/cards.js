@@ -8,7 +8,7 @@ const getNecessaryFeatures = (announcementElement, offer) => {
   const featuresContainer = announcementElement.querySelector('.popup__features');
   const featuresListFragment = document.createDocumentFragment();
   const offerFeatures = offer.features;
-  if (offerFeatures === undefined) {
+  if (!offerFeatures) {
     announcementElement.querySelector('.popup__photos').style.display = 'none';
     return;
   }
@@ -25,7 +25,7 @@ const getNecessaryFeatures = (announcementElement, offer) => {
 // получить все пришедшие фотографии жилья
 const getNecessaryPhotos = (announcementElement, offer) => {
   const offerPhotos = offer.photos;
-  if (offerPhotos === undefined) {
+  if (!offerPhotos) {
     announcementElement.querySelector('.popup__photos').style.display = 'none';
     return;
   }

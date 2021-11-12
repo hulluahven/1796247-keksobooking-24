@@ -22,7 +22,7 @@ getFormInactive();
 const map = L.map('map-canvas')
 // добавляем активацию формы при загрузке
   .on('load',() => {
-    getFormActive();
+    // getFormActive();
     addressField.setAttribute('value', `${TOKYO_CENTER_LAT}, ${TOKYO_CENTER_LNG}`);
   })
   .setView({
@@ -82,7 +82,10 @@ const createMarker = (announcements) => {
 // получить данные
 getData((announcements) => {
   createMarker(announcements.slice(0, OFFERS_COUNT));
+  getFormActive();
 });
+
+// getFormActive();
 
 // возвратить в исходное состояние
 
