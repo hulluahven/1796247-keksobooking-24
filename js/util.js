@@ -47,11 +47,11 @@ const showErrorMessage = () => {
 
 
 const closeMessage = (popup) => {
-  const removeElement = (popup) => {
+  const removeElement = () => {
     popup.remove();
     document.removeEventListener('keydown', onPopupEscapeKeydown);
     window.removeEventListener('click',onClickPopup );
-  }
+  };
 
   function onPopupEscapeKeydown(evt)  {
     if (isEscapeKey(evt)) {
@@ -60,12 +60,12 @@ const closeMessage = (popup) => {
     }
   }
 
-  const onClickPopup = () => {
+  function onClickPopup () {
     removeElement(popup);
-      };
+  }
 
   document.addEventListener('keydown', onPopupEscapeKeydown);
-  window.addEventListener('click',onClickPopup );
+  window.addEventListener('click', onClickPopup );
 };
 
 
