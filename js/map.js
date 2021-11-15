@@ -1,7 +1,7 @@
 import{getFormInactive, getFormActive, announcementForm} from './form.js';
 import{getAnnouncementCard} from './cards.js';
 import {getData} from './api.js';
-import {getFileteredFields, compareFeatures, filterForm} from './filter.js';
+import {getFileteredFields, filterForm} from './filter.js';
 import {debounce} from './utils/debounce.js';
 
 const addressField = document.querySelector('#address');
@@ -68,9 +68,8 @@ const markerGroup = L.layerGroup().addTo(map);
 // функция для создания маркеров
 
 const createMarker = (announcements) => {
-  const filteredFilter = announcements.filter(getFileteredFields);
-  // по выпадашкам-обычная фильтрация а отрисовка на основе отсортированных
-  filteredFilter.sort(compareFeatures)
+  markerGroup.clearLayers();
+  announcements.filter(getFileteredFields)
     .slice(0, OFFERS_COUNT)
     .forEach((announcement) => {
       const {lat, lng} = announcement.location;
@@ -105,7 +104,6 @@ getData((announcements) => {
 
 const setFilterClick = (cb) => {
   filterForm.addEventListener('change', () => {
-    markerGroup.clearLayers();
     cb();
   });
 };
@@ -115,7 +113,6 @@ setFilterClick(debounce(() => createMarker(newAnnouncements), RERENDER_DELAY));
 // возвратить в исходное состояние
 
 const returnMapInitial = () => {
-  markerGroup.clearLayers();
   createMarker(newAnnouncements);
   map.setView({
     lat: TOKYO_CENTER_LAT,
