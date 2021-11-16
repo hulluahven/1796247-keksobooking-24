@@ -1,6 +1,8 @@
 import{getFormInactive, getFormActive, announcementForm} from './form.js';
 import{getAnnouncementCard} from './cards.js';
 import {getData} from './api.js';
+import {getFileteredFields, filterForm} from './filter.js';
+import {debounce} from './utils/debounce.js';
 
 const addressField = document.querySelector('#address');
 const OFFERS_COUNT = 10;
@@ -17,12 +19,13 @@ const ANNOUNCEMENT_ICON_DATA = {
   iconAnchor: [20, 40],
 };
 
+const RERENDER_DELAY = 500;
+
+
 getFormInactive();
 
 const map = L.map('map-canvas')
-// добавляем активацию формы при загрузке
   .on('load',() => {
-    // getFormActive();
     addressField.setAttribute('value', `${TOKYO_CENTER_LAT}, ${TOKYO_CENTER_LNG}`);
   })
   .setView({
@@ -59,37 +62,58 @@ customMarker.on('move', (evt) => {
   addressField.setAttribute('value', `${announcementAddress.lat.toFixed(5)}, ${announcementAddress.lng.toFixed(5)}`);
 });
 
+// создать метки в слое, а не на карте, для очистки отрисовки похожих
+const markerGroup = L.layerGroup().addTo(map);
+
 // функция для создания маркеров
+
 const createMarker = (announcements) => {
-  announcements.forEach((announcement) => {
-    const {lat, lng} = announcement.location;
-    const icon = L.icon(ANNOUNCEMENT_ICON_DATA);
-    const announcementMarker = L.marker(
-      {
-        lat,
-        lng,
-      },
-      {
-        icon,
-      },
-    );
-    announcementMarker
-      .addTo(map)
-      .bindPopup(getAnnouncementCard(announcement));
-  });
+  markerGroup.clearLayers();
+  announcements.filter(getFileteredFields)
+    .slice(0, OFFERS_COUNT)
+    .forEach((announcement) => {
+      const {lat, lng} = announcement.location;
+      const icon = L.icon(ANNOUNCEMENT_ICON_DATA);
+      const announcementMarker = L.marker(
+        {
+          lat,
+          lng,
+        },
+        {
+          icon,
+        },
+      );
+      announcementMarker
+        .addTo(markerGroup)
+        .bindPopup(getAnnouncementCard(announcement));
+    });
 };
 
-// получить данные
+
+let newAnnouncements = [];
+
 getData((announcements) => {
-  createMarker(announcements.slice(0, OFFERS_COUNT));
+  // скопировать массив и работать над копией
+  newAnnouncements = announcements.slice();
+  createMarker(newAnnouncements);
   getFormActive();
 });
 
-// getFormActive();
+
+// сеттер для коллбека
+
+const setFilterClick = (cb) => {
+  filterForm.addEventListener('change', () => {
+    cb();
+  });
+};
+
+setFilterClick(debounce(() => createMarker(newAnnouncements), RERENDER_DELAY));
 
 // возвратить в исходное состояние
 
 const returnMapInitial = () => {
+  createMarker(newAnnouncements);
   map.setView({
     lat: TOKYO_CENTER_LAT,
     lng: TOKYO_CENTER_LNG,
