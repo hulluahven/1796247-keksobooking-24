@@ -21,8 +21,6 @@ const announcementPrice = {
   },
 };
 
-// Фильтрация выпадашек и удобств
-
 const filterOutHousingType = ({offer}) => housingTypeInput.value === DEFAULT_VALUE
  || offer.type === housingTypeInput.value;
 const filterOutGuestsType = ({offer}) => housingGuestsInput.value === DEFAULT_VALUE

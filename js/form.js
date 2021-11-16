@@ -18,7 +18,6 @@ const houseType = announcementForm.querySelector('#type');
 const timeIn = announcementForm.querySelector('#timein');
 const timeOut = announcementForm.querySelector('#timeout');
 
-//неактивное состояние для формы
 const getFormInactive = () => {
   announcementForm.classList.add('ad-form--disabled');
   formFieldsets.forEach((formFieldset) => {
@@ -28,7 +27,6 @@ const getFormInactive = () => {
   mapFilters.setAttribute('disabled','disabled');
 };
 
-//активное состояние для формы
 const getFormActive = () => {
   announcementForm.classList.remove('ad-form--disabled');
   formFieldsets.forEach((formFieldset) => {
@@ -38,7 +36,6 @@ const getFormActive = () => {
   mapFilters.removeAttribute('disabled');
 };
 
-//проверка валидности заголовка
 announcementTitleInput.addEventListener('input', () => {
   const titleLength = announcementTitleInput.value.length;
 
@@ -57,7 +54,6 @@ announcementTitleInput.addEventListener('input', () => {
   announcementTitleInput.reportValidity();
 });
 
-//проверка валидности цены
 announcementPriceInput.addEventListener('input', () => {
   const priceInput = announcementPriceInput.value;
 
@@ -77,7 +73,6 @@ announcementPriceInput.addEventListener('input', () => {
   announcementPriceInput.reportValidity();
 });
 
-//синхронизация и проверка соотношения кол-ва гостей и комнат
 const onAmountFieldChange = () => {
   const roomsAmount = Number(numberOfRooms.value);
   const capacityAmount = Number(roomsСapacity.value);
@@ -106,7 +101,6 @@ const onAmountFieldChange = () => {
 numberOfRooms.addEventListener('change',onAmountFieldChange);
 roomsСapacity.addEventListener('change',onAmountFieldChange);
 
-// проверка соотношения типа жилья и минимальной цены
 const syncHouseAndPriceType = () => {
   const price = {
     bungalow: 0,
@@ -124,7 +118,6 @@ const syncHouseAndPriceType = () => {
 
 syncHouseAndPriceType();
 
-// синхронизация полей со временем заезда/отъзда
 const syncInOutTime = () => {
   timeIn.addEventListener('change', () => {
     timeOut.value = timeIn.value;
@@ -137,7 +130,6 @@ const syncInOutTime = () => {
 };
 
 syncInOutTime();
-
 
 const setUserFormSubmit = (returnMapInitial) => {
   announcementForm.addEventListener('submit', (evt) => {
