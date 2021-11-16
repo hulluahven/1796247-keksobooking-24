@@ -1,10 +1,10 @@
+const DEFAULT_VALUE = 'any';
+
 const filterForm = document.querySelector('.map__filters');
 const housingTypeInput = filterForm.querySelector('[name = "housing-type"]');
 const housingPriceInput = filterForm.querySelector('[name = "housing-price"]');
 const housingRoomsInput = filterForm.querySelector('[name = "housing-rooms"]');
 const housingGuestsInput = filterForm.querySelector('[name = "housing-guests"]');
-
-const DEFAULT_VALUE = 'any';
 
 const announcementPrice = {
   low: {
@@ -21,17 +21,15 @@ const announcementPrice = {
   },
 };
 
-// Фильтрация выпадашек и удобств
-
-const filterHousingType = ({offer}) => housingTypeInput.value === DEFAULT_VALUE
+const filterOutHousingType = ({offer}) => housingTypeInput.value === DEFAULT_VALUE
  || offer.type === housingTypeInput.value;
-const filterGuestsType = ({offer}) => housingGuestsInput.value === DEFAULT_VALUE
+const filterOutGuestsType = ({offer}) => housingGuestsInput.value === DEFAULT_VALUE
  || offer.guests.toString() === housingGuestsInput.value;
-const filterRoomsType = ({offer}) => housingRoomsInput.value === DEFAULT_VALUE
+const filterOutRoomsType = ({offer}) => housingRoomsInput.value === DEFAULT_VALUE
  || offer.rooms.toString() === housingRoomsInput.value;
-const comparesPriceOffers = ({offer}) => housingPriceInput.value === DEFAULT_VALUE
+const filterOutPriceOffers = ({offer}) => housingPriceInput.value === DEFAULT_VALUE
  || offer.price >= announcementPrice [housingPriceInput.value].min && offer.price < announcementPrice [housingPriceInput.value].max;
-const comparesFeaturesOffers = ({offer}) => {
+const filterOutFeaturesOffers = ({offer}) => {
   const userCheckedFeatures = filterForm.querySelectorAll('[name="features"]:checked');
   const userCheckedArray = Array.from(userCheckedFeatures, (input) => input.value);
   if (!offer.features && userCheckedArray.length === 0) {
@@ -40,12 +38,11 @@ const comparesFeaturesOffers = ({offer}) => {
   return userCheckedArray.every((index) => offer.features.includes(index));
 };
 
-
-const getFileteredFields = ({offer}) => filterHousingType({offer})
-&& filterGuestsType({offer})
-&& filterRoomsType({offer})
-&& comparesPriceOffers({offer})
-&& comparesFeaturesOffers({offer});
+const getFileteredFields = ({offer}) => filterOutHousingType({offer})
+&& filterOutGuestsType({offer})
+&& filterOutRoomsType({offer})
+&& filterOutPriceOffers({offer})
+&& filterOutFeaturesOffers({offer});
 
 
 export {getFileteredFields, filterForm};

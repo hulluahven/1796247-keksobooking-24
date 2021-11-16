@@ -30,4 +30,5 @@ const sendData = (onSuccess, onFail, body) => {
       onFail();
     });
 };
+
 export {getData, sendData};

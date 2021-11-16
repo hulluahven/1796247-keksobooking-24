@@ -1,9 +1,7 @@
-// находим шаблон для копирования
 const announcementTemplate = document.querySelector('#card')
   .content
   .querySelector('.popup');
 
-// оставить пришедшие с сервера удобства
 const getNecessaryFeatures = (announcementElement, offer) => {
   const featuresContainer = announcementElement.querySelector('.popup__features');
   const featuresListFragment = document.createDocumentFragment();
@@ -22,7 +20,6 @@ const getNecessaryFeatures = (announcementElement, offer) => {
   featuresContainer.appendChild(featuresListFragment);
 };
 
-// получить все пришедшие фотографии жилья
 const getNecessaryPhotos = (announcementElement, offer) => {
   const offerPhotos = offer.photos;
   if (!offerPhotos) {
@@ -42,7 +39,6 @@ const getNecessaryPhotos = (announcementElement, offer) => {
   });
 };
 
-// вывести тип жилья на русском
 const getNecessaryType = (announcementElement, offer) => {
   const type = offer.type;
   const offerType = {
@@ -57,8 +53,6 @@ const getNecessaryType = (announcementElement, offer) => {
   announcementElement.querySelector('.popup__type').textContent = getType(type);
 };
 
-
-// Проверить поле с описанием на заполнение
 const checkAnnouncementDescription = (announcementElement, offer) => {
   if (!offer.description) {
     announcementElement.querySelector('.popup__description').style = 'display:none';
@@ -68,11 +62,8 @@ const checkAnnouncementDescription = (announcementElement, offer) => {
 };
 
 const announcementListFragment = document.createDocumentFragment();
-
-// создаём карточку объявления
 const getAnnouncementCard = ({offer, author}) => {
   const announcementElement = announcementTemplate.cloneNode(true);
-  // клонируем шаблон и заполняем его
   announcementElement.querySelector('.popup__title').textContent = offer.title;
   announcementElement.querySelector('.popup__text--address').textContent = offer.address;
   announcementElement.querySelector('.popup__text--price').textContent = `${offer.price} ₽/ночь`;
@@ -85,7 +76,6 @@ const getAnnouncementCard = ({offer, author}) => {
   getNecessaryType( announcementElement, offer);
   checkAnnouncementDescription(announcementElement, offer);
   announcementListFragment.append(announcementElement);
-  // удаляем отрисовку карточки на месте карты и возвращаем заполненный склонированный шаблон
   return announcementElement;
 };
 
