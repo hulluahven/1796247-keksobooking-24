@@ -34,7 +34,7 @@ const comparesPriceOffers = ({offer}) => housingPriceInput.value === DEFAULT_VAL
 const comparesFeaturesOffers = ({offer}) => {
   const userCheckedFeatures = filterForm.querySelectorAll('[name="features"]:checked');
   const userCheckedArray = Array.from(userCheckedFeatures, (input) => input.value);
-  if (!offer.features) {
+  if (!offer.features && userCheckedArray.length === 0) {
     return false;
   }
   return userCheckedArray.every((index) => offer.features.includes(index));
