@@ -57,7 +57,6 @@ const getNecessaryType = (announcementElement, offer) => {
   announcementElement.querySelector('.popup__type').textContent = getType(type);
 };
 
-
 // Проверить поле с описанием на заполнение
 const checkAnnouncementDescription = (announcementElement, offer) => {
   if (!offer.description) {

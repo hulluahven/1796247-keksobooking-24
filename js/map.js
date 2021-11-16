@@ -21,7 +21,6 @@ const ANNOUNCEMENT_ICON_DATA = {
 
 const RERENDER_DELAY = 500;
 
-
 getFormInactive();
 
 const map = L.map('map-canvas')
