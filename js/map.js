@@ -4,7 +4,6 @@ import {getData} from './api.js';
 import {getFileteredFields, filterForm} from './filter.js';
 import {debounce} from './utils/debounce.js';
 
-const addressField = document.querySelector('#address');
 const OFFERS_COUNT = 10;
 const VIEW = 10;
 const RERENDER_DELAY = 500;
@@ -20,6 +19,8 @@ const ANNOUNCEMENT_ICON_DATA = {
   iconSize: [40, 40],
   iconAnchor: [20, 40],
 };
+
+const addressField = document.querySelector('#address');
 
 getFormInactive();
 
@@ -113,12 +114,12 @@ const returnMapInitial = () => {
   addressField.setAttribute('value', `${TOKYO_CENTER_LAT}, ${TOKYO_CENTER_LNG}`);
 };
 
-const toReset = () => {
+const switchToReset = () => {
   const resetButton = announcementForm.querySelector('.ad-form__reset');
   resetButton.addEventListener('click', returnMapInitial);
 };
 
-toReset();
+switchToReset();
 
-export {createMarker ,returnMapInitial, toReset};
+export {createMarker ,returnMapInitial, switchToReset};
 
