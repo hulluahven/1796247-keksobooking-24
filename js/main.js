@@ -4,4 +4,3 @@ import {returnMapInitial} from './map.js';
 import './filter.js';
 
 setUserFormSubmit(returnMapInitial);
-// Доделать правильным способом

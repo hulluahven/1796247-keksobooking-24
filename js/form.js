@@ -12,10 +12,12 @@ const announcementPriceInput = document.querySelector('#price');
 const numberOfRooms = document.querySelector('#room_number');
 const roomsСapacity = document.querySelector('#capacity');
 const announcementForm = document.querySelector('.ad-form');
-const formFieldsets = announcementForm.querySelectorAll('fieldset');
 const mapFilters = document.querySelector('.map__filters');
+const formFieldsets = announcementForm.querySelectorAll('fieldset');
+const houseType = announcementForm.querySelector('#type');
+const timeIn = announcementForm.querySelector('#timein');
+const timeOut = announcementForm.querySelector('#timeout');
 
-//неактивное состояние для формы
 const getFormInactive = () => {
   announcementForm.classList.add('ad-form--disabled');
   formFieldsets.forEach((formFieldset) => {
@@ -25,8 +27,6 @@ const getFormInactive = () => {
   mapFilters.setAttribute('disabled','disabled');
 };
 
-
-//активное состояние для формы
 const getFormActive = () => {
   announcementForm.classList.remove('ad-form--disabled');
   formFieldsets.forEach((formFieldset) => {
@@ -35,8 +35,6 @@ const getFormActive = () => {
   mapFilters.classList.remove('map__filters--disabled');
   mapFilters.removeAttribute('disabled');
 };
-
-//проверка валидности заголовка
 
 announcementTitleInput.addEventListener('input', () => {
   const titleLength = announcementTitleInput.value.length;
@@ -56,12 +54,16 @@ announcementTitleInput.addEventListener('input', () => {
   announcementTitleInput.reportValidity();
 });
 
-//проверка валидности цены
 announcementPriceInput.addEventListener('input', () => {
   const priceInput = announcementPriceInput.value;
 
   announcementPriceInput.setCustomValidity('');
   announcementPriceInput.style = '';
+
+  if (priceInput < announcementPriceInput.min) {
+    announcementPriceInput.setCustomValidity('Нельзя указать цену ниже рекомендуемого значения');
+    announcementPriceInput.style = 'outline: 2px solid red';
+  }
 
   if(priceInput > MAX_PRICE){
     announcementPriceInput.setCustomValidity(`Макс. допустимая цена: ${MAX_PRICE} /ночь`);
@@ -71,8 +73,7 @@ announcementPriceInput.addEventListener('input', () => {
   announcementPriceInput.reportValidity();
 });
 
-//синхронизация и проверка соотношения кол-ва гостей и комнат
-const onAmountFieldChange = () => {
+const checkAmountFieldChange = () => {
   const roomsAmount = Number(numberOfRooms.value);
   const capacityAmount = Number(roomsСapacity.value);
 
@@ -97,8 +98,38 @@ const onAmountFieldChange = () => {
   roomsСapacity.reportValidity();
 };
 
-numberOfRooms.addEventListener('change',onAmountFieldChange);
-roomsСapacity.addEventListener('change',onAmountFieldChange);
+numberOfRooms.addEventListener('change',checkAmountFieldChange);
+roomsСapacity.addEventListener('change',checkAmountFieldChange);
+
+const synchronizeHouseAndPriceType = () => {
+  const houseTypePrices = {
+    bungalow: 0,
+    flat: 1000,
+    hotel: 3000,
+    house: 5000,
+    palace: 10000,
+  };
+
+  houseType.addEventListener('change', () => {
+    announcementPriceInput.placeholder = houseTypePrices[houseType.value];
+    announcementPriceInput.min = houseTypePrices[houseType.value];
+  });
+};
+
+synchronizeHouseAndPriceType();
+
+const synchronizeInOutTime = () => {
+  timeIn.addEventListener('change', () => {
+    timeOut.value = timeIn.value;
+  });
+
+  timeOut.addEventListener('change', () => {
+    timeIn.value = timeOut.value;
+  });
+
+};
+
+synchronizeInOutTime();
 
 const setUserFormSubmit = (returnMapInitial) => {
   announcementForm.addEventListener('submit', (evt) => {
@@ -121,5 +152,5 @@ const setUserFormSubmit = (returnMapInitial) => {
     );
   });
 };
-// Доделать правильным способом
+
 export{getFormInactive, getFormActive, announcementForm, setUserFormSubmit};
