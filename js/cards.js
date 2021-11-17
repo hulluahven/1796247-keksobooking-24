@@ -6,7 +6,7 @@ const getNecessaryFeatures = (announcementElement, offer) => {
   const featuresContainer = announcementElement.querySelector('.popup__features');
   const featuresListFragment = document.createDocumentFragment();
   const offerFeatures = offer.features;
-  if (!offerFeatures) {
+  if (typeof offerFeatures === "undefined" || offerFeatures.length > 0) {
     announcementElement.querySelector('.popup__photos').style.display = 'none';
     return;
   }
@@ -22,16 +22,16 @@ const getNecessaryFeatures = (announcementElement, offer) => {
 
 const getNecessaryPhotos = (announcementElement, offer) => {
   const offerPhotos = offer.photos;
-  if (!offerPhotos) {
+  if (typeof offerPhotos === "undefined" || offerPhotos.length > 0) {
     announcementElement.querySelector('.popup__photos').style.display = 'none';
     return;
   }
 
   announcementElement.querySelector('.popup__photos').innerHTML = '';
-  offerPhotos.forEach((offerPhoto) => {
+  offerPhotos.forEach((photo) => {
     const photoItem = document.createElement('img');
     photoItem.classList.add('popup__photo');
-    photoItem.src = offerPhoto;
+    photoItem.src = photo;
     photoItem.width = 45;
     photoItem.height = 40;
     photoItem.alt ='Фотография жилья';

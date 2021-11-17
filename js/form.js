@@ -73,7 +73,7 @@ announcementPriceInput.addEventListener('input', () => {
   announcementPriceInput.reportValidity();
 });
 
-const onAmountFieldChange = () => {
+const checkAmountFieldChange = () => {
   const roomsAmount = Number(numberOfRooms.value);
   const capacityAmount = Number(roomsСapacity.value);
 
@@ -98,11 +98,11 @@ const onAmountFieldChange = () => {
   roomsСapacity.reportValidity();
 };
 
-numberOfRooms.addEventListener('change',onAmountFieldChange);
-roomsСapacity.addEventListener('change',onAmountFieldChange);
+numberOfRooms.addEventListener('change',checkAmountFieldChange);
+roomsСapacity.addEventListener('change',checkAmountFieldChange);
 
-const syncHouseAndPriceType = () => {
-  const price = {
+const synchronizeHouseAndPriceType = () => {
+  const houseTypePrices = {
     bungalow: 0,
     flat: 1000,
     hotel: 3000,
@@ -111,14 +111,14 @@ const syncHouseAndPriceType = () => {
   };
 
   houseType.addEventListener('change', () => {
-    announcementPriceInput.placeholder = price[houseType.value];
-    announcementPriceInput.min = price[houseType.value];
+    announcementPriceInput.placeholder = houseTypePrices[houseType.value];
+    announcementPriceInput.min = houseTypePrices[houseType.value];
   });
 };
 
-syncHouseAndPriceType();
+synchronizeHouseAndPriceType();
 
-const syncInOutTime = () => {
+const synchronizeInOutTime = () => {
   timeIn.addEventListener('change', () => {
     timeOut.value = timeIn.value;
   });
@@ -129,7 +129,7 @@ const syncInOutTime = () => {
 
 };
 
-syncInOutTime();
+synchronizeInOutTime();
 
 const setUserFormSubmit = (returnMapInitial) => {
   announcementForm.addEventListener('submit', (evt) => {

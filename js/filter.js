@@ -6,7 +6,7 @@ const housingPriceInput = filterForm.querySelector('[name = "housing-price"]');
 const housingRoomsInput = filterForm.querySelector('[name = "housing-rooms"]');
 const housingGuestsInput = filterForm.querySelector('[name = "housing-guests"]');
 
-const announcementPrice = {
+const announcementPrices = {
   low: {
     min: 0,
     max: 10000,
@@ -28,11 +28,11 @@ const filterOutGuestsType = ({offer}) => housingGuestsInput.value === DEFAULT_VA
 const filterOutRoomsType = ({offer}) => housingRoomsInput.value === DEFAULT_VALUE
  || offer.rooms.toString() === housingRoomsInput.value;
 const filterOutPriceOffers = ({offer}) => housingPriceInput.value === DEFAULT_VALUE
- || offer.price >= announcementPrice [housingPriceInput.value].min && offer.price < announcementPrice [housingPriceInput.value].max;
+ || offer.price >= announcementPrices [housingPriceInput.value].min && offer.price < announcementPrices [housingPriceInput.value].max;
 const filterOutFeaturesOffers = ({offer}) => {
   const userCheckedFeatures = filterForm.querySelectorAll('[name="features"]:checked');
   const userCheckedArray = Array.from(userCheckedFeatures, (input) => input.value);
-  if (!offer.features && userCheckedArray.length === 0) {
+  if (!offer.features && userCheckedArray.length > 0) {
     return false;
   }
   return userCheckedArray.every((index) => offer.features.includes(index));
