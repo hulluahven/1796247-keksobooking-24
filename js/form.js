@@ -102,7 +102,7 @@ numberOfRooms.addEventListener('change',checkAmountFieldChange);
 roomsСapacity.addEventListener('change',checkAmountFieldChange);
 
 const synchronizeHouseAndPriceType = () => {
-  const houseTypePrices = {
+  const HouseTypePrices = {
     bungalow: 0,
     flat: 1000,
     hotel: 3000,
@@ -111,8 +111,8 @@ const synchronizeHouseAndPriceType = () => {
   };
 
   houseType.addEventListener('change', () => {
-    announcementPriceInput.placeholder = houseTypePrices[houseType.value];
-    announcementPriceInput.min = houseTypePrices[houseType.value];
+    announcementPriceInput.placeholder = HouseTypePrices[houseType.value];
+    announcementPriceInput.min = HouseTypePrices[houseType.value];
   });
 };
 
