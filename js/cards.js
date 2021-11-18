@@ -6,27 +6,27 @@ const getNecessaryFeatures = (announcementElement, offer) => {
   const featuresContainer = announcementElement.querySelector('.popup__features');
   const featuresListFragment = document.createDocumentFragment();
   const offerFeatures = offer.features;
-  if (typeof offerFeatures === "undefined" || offerFeatures.length > 0) {
-    announcementElement.querySelector('.popup__photos').style.display = 'none';
+  if(typeof offerFeatures === 'undefined') {
+    announcementElement.querySelector('.popup__features').style.display = 'none';
     return;
   }
+
   offerFeatures.forEach((offerFeature) => {
     const featuresListItem = featuresContainer.querySelector(`.popup__feature--${offerFeature}`);
-    if (featuresListItem) {
-      featuresListFragment.append(featuresListItem);
-    }
+
+    featuresListFragment.append(featuresListItem);
   });
+
   featuresContainer.innerHTML = '';
   featuresContainer.appendChild(featuresListFragment);
 };
 
 const getNecessaryPhotos = (announcementElement, offer) => {
   const offerPhotos = offer.photos;
-  if (typeof offerPhotos === "undefined" || offerPhotos.length > 0) {
+  if (typeof offerPhotos === 'undefined') {
     announcementElement.querySelector('.popup__photos').style.display = 'none';
     return;
   }
-
   announcementElement.querySelector('.popup__photos').innerHTML = '';
   offerPhotos.forEach((photo) => {
     const photoItem = document.createElement('img');
@@ -41,14 +41,14 @@ const getNecessaryPhotos = (announcementElement, offer) => {
 
 const getNecessaryType = (announcementElement, offer) => {
   const type = offer.type;
-  const offerType = {
+  const OfferTypes = {
     flat: 'Квартира',
     bungalow: 'Бунгало',
     home: 'Дом',
     palace: 'Дворец',
     hotel: 'Отель',
   };
-  const getType = (value) => offerType[value];
+  const getType = (value) => OfferTypes[value];
 
   announcementElement.querySelector('.popup__type').textContent = getType(type);
 };
