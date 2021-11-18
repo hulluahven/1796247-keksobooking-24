@@ -3,6 +3,7 @@ import{getAnnouncementCard} from './cards.js';
 import {getData} from './api.js';
 import {getFileteredFields, filterForm} from './filter.js';
 import {debounce} from './utils/debounce.js';
+import {removePictures} from './avatar.js';
 
 const OFFERS_COUNT = 10;
 const VIEW = 10;
@@ -112,14 +113,17 @@ const returnMapInitial = () => {
 
   map.closePopup();
   addressField.setAttribute('value', `${TOKYO_CENTER_LAT}, ${TOKYO_CENTER_LNG}`);
+
+  removePictures();
 };
 
-const switchToReset = () => {
+const toReset = () => {
   const resetButton = announcementForm.querySelector('.ad-form__reset');
   resetButton.addEventListener('click', returnMapInitial);
+  removePictures();
 };
 
-switchToReset();
+toReset();
 
-export {createMarker ,returnMapInitial, switchToReset};
+export {createMarker ,returnMapInitial, toReset};
 

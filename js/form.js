@@ -73,7 +73,7 @@ announcementPriceInput.addEventListener('input', () => {
   announcementPriceInput.reportValidity();
 });
 
-const checkAmountFieldChange = () => {
+const onAmountFieldChange = () => {
   const roomsAmount = Number(numberOfRooms.value);
   const capacityAmount = Number(roomsСapacity.value);
 
@@ -98,10 +98,10 @@ const checkAmountFieldChange = () => {
   roomsСapacity.reportValidity();
 };
 
-numberOfRooms.addEventListener('change',checkAmountFieldChange);
-roomsСapacity.addEventListener('change',checkAmountFieldChange);
+numberOfRooms.addEventListener('change',onAmountFieldChange);
+roomsСapacity.addEventListener('change',onAmountFieldChange);
 
-const synchronizeHouseAndPriceType = () => {
+const syncHouseAndPriceType = () => {
   const HouseTypePrices = {
     bungalow: 0,
     flat: 1000,
@@ -116,9 +116,9 @@ const synchronizeHouseAndPriceType = () => {
   });
 };
 
-synchronizeHouseAndPriceType();
+syncHouseAndPriceType();
 
-const synchronizeInOutTime = () => {
+const syncInOutTime = () => {
   timeIn.addEventListener('change', () => {
     timeOut.value = timeIn.value;
   });
@@ -129,7 +129,7 @@ const synchronizeInOutTime = () => {
 
 };
 
-synchronizeInOutTime();
+syncInOutTime();
 
 const setUserFormSubmit = (returnMapInitial) => {
   announcementForm.addEventListener('submit', (evt) => {

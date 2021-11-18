@@ -1,12 +1,12 @@
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 const SIZE = 70;
+
 const avatarInputField = document.querySelector('.ad-form__field input[type=file]');
 const userImagePreview = document.querySelector('.ad-form-header__preview img');
 const houseInputUpload = document.querySelector('.ad-form__upload input[type=file]');
 const houseImageContainer = document.querySelector('.ad-form__photo');
 const houseImageContent = document.createElement('img');
 
-// для аватарки
 avatarInputField.addEventListener('change', () => {
   const userAvatarFile = avatarInputField.files[0];
   const avatarfileName = userAvatarFile.name.toLowerCase();
@@ -19,8 +19,6 @@ avatarInputField.addEventListener('change', () => {
   }
 
 });
-
-// для фото жилья
 
 houseInputUpload.addEventListener('change', () => {
   const housePhotoFile = houseInputUpload.files[0];
@@ -40,4 +38,11 @@ houseInputUpload.addEventListener('change', () => {
   return  houseImageContent;
 });
 
+
+const removePictures = () => {
+  userImagePreview.src = 'img/muffin-grey.svg';
+  houseImageContent.remove();
+};
+
+export {removePictures};
 
